@@ -1,0 +1,85 @@
+body {
+	background: rgb(0, 0, 0, 0.8);
+	color: white;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+section {
+	margin-top: 3rem;
+	border-left: 0.7rem solid gray;
+	padding: 0 3rem;
+	width: 60%;
+}
+
+h1 {
+	margin: 0;
+}
+
+p {
+	color: #9d9d9d;
+	margin: 0.5rem 0 2rem;
+}
+
+label {
+	display: block;
+	font-weight: bold;
+	margin-bottom: 0.7rem;
+}
+
+input[type="text"],
+textarea {
+	margin-bottom: 1.5rem;
+	display: block;
+	padding: 0.5rem;
+	width: 80%;
+	background: gray;
+	border: none;
+	border-bottom: 1px solid lightgray;
+	outline: 0;
+	color: black;
+}
+
+input[type="text"]:focus,
+textarea:focus {
+	border-bottom: 1px solid white;
+}
+
+input[type="submit"] {
+	background: gray;
+	border: none;
+	color: white;
+	font-weight: bold;
+	padding: 0.8rem 2rem;
+	border-radius: 2rem;
+	font-size: 0.8rem;
+}
+
+body {
+	background-color: white;
+	color: black;
+}
+
+section {
+	border-left: 0.7rem solid rgb(36, 36, 255);
+}
+
+p {
+	line-height: 1.6;
+	color: rgb(36, 36, 36);
+}
+
+input[type="text"],
+textarea {
+	background-color: white;
+	border-bottom: 1px solid rgb(0, 0, 0);
+	color: rgb(36, 36, 36);
+}
+
+input[type="submit"] {
+	background-color: rgb(46, 46, 255);
+}
+
+input[type="text"]:focus,
+textarea:focus {
+	border-bottom: 1px solid rgb(46, 46, 255);
+}

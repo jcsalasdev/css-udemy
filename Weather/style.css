@@ -1,0 +1,80 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+:root {
+	font-size: 62.5%;
+}
+
+body {
+	background-color: rgb(41, 151, 219);
+	color: white;
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+p {
+	font-size: 1.7rem;
+	margin: 0.5rem;
+}
+
+i {
+	font-size: 6rem;
+}
+
+sup {
+	font-size: 0.8rem;
+}
+
+::selection {
+	color: yellow;
+	background-color: darkslategrey;
+}
+
+section#weather {
+	margin: 2rem auto 0;
+}
+
+h1 {
+	text-align: center;
+	font-size: 6rem;
+	letter-spacing: 0.4rem;
+	font-weight: 900;
+}
+
+div.weather_info_temp {
+	padding: 4rem;
+}
+
+div.weather_info {
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+	margin: 5rem 0;
+}
+
+div.weather_dates_info {
+	display: flex;
+	justify-content: space-evenly;
+	border: none;
+	outline: none;
+	border-radius: 2rem;
+	background-color: rgb(34, 139, 204);
+}
+
+div.weather_dates_info > div > i {
+	font-size: 6rem;
+	opacity: 50%;
+}
+
+div.weather_dates_info > div > i:hover {
+	opacity: 100%;
+	transition: opacity 1s;
+}
+
+div.weather_dates_info > div > p {
+	display: block;
+	width: 7%;
+	text-align: center;
+}

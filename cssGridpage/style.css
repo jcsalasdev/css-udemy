@@ -1,0 +1,882 @@
+*,
+*::before,
+*::after {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+:root {
+	font-size: 62.5%;
+
+	/***************COLORS***************/
+
+	--color-primary: #730039;
+	--color-primary-m-light: #73003a63;
+	--color-primary-m-dark: #73003a9d;
+
+	--color-secondary: #ffc513;
+	--color-secondary-m-light: #ffc41355;
+	--color-secondary-m-dark: #ffc4139b;
+
+	--color-tertiary: #ff724c;
+	--color-tertiary-m-light: #ff734c55;
+	--color-tertiary-m-dark: #ff734c85;
+
+	--color-quanternary: #f6eedf;
+	--color-quanternary-m-light: #f6eedf55;
+	--color-quanternary-m-dark: #f6eedf85;
+
+	/************Transition Duration***********/
+
+	--transition-duration: 0.3s;
+
+	/************secTitleFontSize***********/
+
+	--font-size-title: calc(2rem + 2vw);
+
+	/************secPadding***********/
+
+	--padding-section: 8vh 3vw;
+}
+
+body {
+	font-family: "Titillium Web", sans-serif;
+	line-height: 1.7;
+	background-color: var(--color-quanternary);
+}
+/************Grid Layout***********/
+.container {
+	display: grid;
+	grid-template-columns:
+		[container-start]
+		1fr[center-start] repeat(
+			10,
+			[col-start] minmax(min-content, 11rem) [col-end]
+		)
+		[center-end]
+		1fr[container-end];
+
+	grid-template-rows: 100vh repeat(8, min-content);
+	grid-column-gap: 0px;
+	grid-row-gap: 0px;
+}
+
+.container > * {
+	font-size: 2rem;
+}
+
+/************Anchor Tags***********/
+
+a:link,
+a:visited {
+	color: var(--color-quanternary);
+	text-decoration: none;
+	font-size: calc(0.5rem + 1vw);
+	padding: 1rem 2rem;
+	border-radius: 0.3rem;
+	position: relative;
+	transition: all var(--transition-duration) cubic-bezier(1, 0, 0, 1);
+	z-index: 1;
+}
+
+p {
+	color: white;
+	font-size: calc(1rem + 1vw);
+	font-weight: 200;
+}
+
+li {
+	list-style: none;
+	margin-bottom: 4rem;
+}
+
+i {
+	font-size: var(--font-size-title);
+	color: (var(--color-secondary));
+}
+
+/************Main Styling***********/
+
+header#header {
+	/* background-color: var(--color-primary); */
+	grid-column: container-start / container-end;
+	background-image: linear-gradient(
+			var(--color-primary-m-light),
+			var(--color-primary-m-light)
+		),
+		url(img/hero.jpg);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+}
+
+.header_main-nav {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 6;
+}
+
+.header_main-nav input[type="checkbox"] {
+	position: absolute;
+	top: 3rem;
+	left: 3rem;
+	height: 5rem;
+	width: 5rem;
+	cursor: pointer;
+	opacity: 0;
+	z-index: 3;
+}
+
+.header_main-nav--hamburger {
+	position: absolute;
+	top: 3rem;
+	left: 3rem;
+	height: 5rem;
+	width: 5rem;
+	padding: 1rem;
+	background-color: var(--color-secondary);
+	z-index: 2;
+
+	display: grid;
+	place-items: center;
+
+	animation: main-nav 2s;
+}
+
+@keyframes main-nav {
+	0% {
+		transform: translateX(150rem) rotate(1800deg);
+		opacity: 0;
+	}
+
+	100% {
+		transform: translateX(0) rotate(0);
+		opacity: 1;
+	}
+}
+
+.header_main-nav--hamburger > div {
+	position: relative;
+	height: 0.3rem;
+	width: 100%;
+	background-color: var(--color-quanternary);
+
+	display: grid;
+	place-items: center;
+	transition: all var(--transition-duration) ease-in-out;
+}
+
+.header_main-nav--hamburger > div::before,
+.header_main-nav--hamburger > div::after {
+	content: "";
+	position: absolute;
+	top: -1rem;
+	width: 60%;
+	height: inherit;
+	background-color: inherit;
+	z-index: 2;
+}
+
+.header_main-nav--hamburger > div::before {
+	left: 0;
+}
+
+.header_main-nav--hamburger > div::after {
+	top: 1rem;
+	right: 0;
+}
+
+.header_main-nav
+	input[type="checkbox"]:checked
+	+ .header_main-nav--hamburger
+	> div {
+	transform: rotate(135deg);
+}
+
+.header_main-nav
+	input[type="checkbox"]:checked
+	+ .header_main-nav--hamburger
+	> div::before {
+	left: 0;
+	top: 0;
+	width: 100%;
+	transform: rotate(270deg);
+}
+
+.header_main-nav
+	input[type="checkbox"]:checked
+	+ .header_main-nav--hamburger
+	> div::after {
+	opacity: 0;
+}
+
+.header_main-nav
+	input[type="checkbox"]:checked:hover
+	+ .header_main-nav--hamburger
+	> div {
+	transform: rotate(405deg);
+}
+
+.header_main-nav--menu {
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	visibility: hidden;
+	overflow: hidden;
+
+	display: grid;
+	place-items: center;
+}
+
+.header_main-nav--menu > div {
+	background-color: var(--color-secondary-m-dark);
+	height: 200%;
+	width: 200%;
+
+	display: grid;
+	place-items: center;
+
+	transform: scaleX(0);
+	transition: all 0.7s ease-in-out;
+}
+
+.header_main-nav--menu > div > div {
+	text-align: center;
+	max-width: 90vw;
+	max-height: 100vh;
+}
+
+.header_main-nav input[type="checkbox"]:checked ~ .header_main-nav--menu {
+	visibility: visible;
+}
+
+.header_main-nav input[type="checkbox"]:checked ~ .header_main-nav--menu > div {
+	transform: scaleX(1);
+}
+
+.header_main-nav
+	input[type="checkbox"]:checked
+	~ .header_main-nav--menu
+	> div
+	> div {
+	opacity: 1;
+}
+
+.header_main-nav--menu ul li a:link,
+.header_main-nav--menu ul li a:visited {
+	z-index: 5;
+	font-size: calc(1.5rem + 0.5vw);
+	position: relative;
+}
+
+.header_main-nav--menu ul li a:link::before,
+.header_main-nav--menu ul li a:visited::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	z-index: -1;
+	transform: scaleY(0);
+	background-color: var(--color-primary-m-dark);
+	transition: transform var(--transition-duration) ease-in-out;
+}
+
+.header_main-nav--menu ul li a:hover::before,
+.header_main-nav--menu ul li a:active::before {
+	transform: scaleY(1);
+}
+
+.header_logo-content {
+	display: grid;
+	grid-template-columns: 1fr minmax(30rem, 1fr) 1fr;
+	grid-template-rows: min-content;
+	height: 90%;
+	justify-items: center;
+}
+
+.header_logo-content--logo {
+	grid-column: 2 / 3;
+	letter-spacing: 0.2rem;
+}
+
+.header_logo-content--logo span {
+	color: var(--color-tertiary);
+	font-size: 3rem;
+	font-family: "Times New Roman", Times, serif;
+}
+
+.header_content {
+	grid-column: 1 / -1;
+	align-self: center;
+}
+
+.header_content-title {
+	font-size: calc(4rem + 4vw);
+	font-weight: 400;
+	color: white;
+	text-transform: uppercase;
+	padding: 0 2rem var(--font-size-title);
+}
+
+.header_content-para {
+	font-size: calc(1rem + 2vw);
+	font-weight: 500;
+	padding: 2vh 2rem 6vh var(--font-size-title);
+}
+
+.header_content-link:link,
+.header_content-link:visited {
+	margin-left: var(--font-size-title);
+	border: 0.2rem solid var(--color-tertiary);
+}
+
+.header_content-link:link::before,
+.header_content-link:visited::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background-color: var(--color-tertiary);
+	transform: scaleX(0);
+	transition: all 0.45s cubic-bezier(1, 0, 0, 1);
+	z-index: -1;
+}
+
+.header_content-link:hover::before,
+.header_content-link:active::before {
+	transform: scaleX(1);
+}
+
+section#booking-content {
+	grid-column: center-start / col-end 6;
+	padding: var(--padding-section);
+
+	display: grid;
+	grid-template-rows: repeat(3, max-content);
+	grid-gap: 2vh;
+}
+
+.booking-content_title {
+	font-size: var(--font-size-title);
+	padding: 0 2rem 1rem;
+	font-weight: 300;
+	position: relative;
+}
+
+.booking-content_title::after {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: 15%;
+	height: 0.2rem;
+	width: 30%;
+
+	background-color: var(--color-secondary);
+}
+
+.booking-content_para {
+	padding: 2rem;
+}
+
+section#booking-content p,
+.booking-date_contact p {
+	color: var(--color-primary);
+}
+
+.booking-content_icons {
+	margin-left: 2rem;
+
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+}
+
+.booking-content_icons--weather,
+.booking-content_icons--time {
+	display: grid;
+	grid-template-columns: 0.5fr 1fr;
+	grid-template-rows: 10vh;
+	justify-items: start;
+	align-items: center;
+}
+
+section#booking-date {
+	grid-column: col-start 7 / center-end;
+	padding: var(--padding-section);
+
+	display: grid;
+	grid-template-rows: repeat(2, 1fr);
+}
+
+.booking-date_sched {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-column-gap: 2vw;
+	place-items: center;
+}
+
+.booking-date_sched--arrival,
+.booking-date_sched--departure,
+.booking-date_sched--guests {
+	display: grid;
+	row-gap: 3vh;
+}
+
+.booking-date_sched--arrival h5,
+.booking-date_sched--departure h5,
+.booking-date_sched--guests h5 {
+	font-size: calc(1rem + 1vw);
+	text-align: center;
+}
+
+.booking-date_sched--arrival > div,
+.booking-date_sched--departure > div,
+.booking-date_sched--guests > div {
+	background-color: var(--color-secondary);
+	padding: 2rem 4rem;
+
+	display: grid;
+	grid-template-rows: repeat(3, 1fr);
+	place-items: center;
+	position: relative;
+}
+
+.booking-date_sched--arrival > div::before,
+.booking-date_sched--departure > div::before,
+.booking-date_sched--guests > div::before {
+	content: "";
+	position: absolute;
+	bottom: 100%;
+	left: 50%;
+	border-width: 1.5rem;
+	margin-left: -1.5rem;
+	border-style: solid;
+	border-color: transparent transparent var(--color-secondary) transparent;
+}
+
+.booking-date_sched--arrival > div p:nth-last-of-type(2),
+.booking-date_sched--departure > div p:nth-last-of-type(2),
+.booking-date_sched--guests > div p:nth-last-of-type(2) {
+	font-size: 3rem;
+	font-weight: 700;
+}
+
+.booking-date_contact {
+	align-self: end;
+}
+
+.booking-date_contact--link:link,
+.booking-date_contact--link:visited {
+	background-color: var(--color-secondary);
+	color: white;
+	transition: all var(--transition-duration) ease-in-out;
+}
+
+.booking-date_contact--link:hover,
+.booking-date_contact--link:active {
+	color: var(--color-secondary);
+	background-color: white;
+	border: 0.1rem var(--color-secondary) solid;
+}
+
+.booking-date_contact p:first-of-type {
+	margin-top: 4rem;
+}
+
+.booking-date_contact p:first-of-type,
+.booking-date_contact p:nth-of-type(2),
+.booking-date_contact p:nth-of-type(3) {
+	font-size: 2rem;
+}
+
+section#villas {
+	grid-column: container-start / container-end;
+
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(40rem, 1fr));
+	grid-gap: 2rem;
+}
+
+div[class^="villas"] {
+	padding: 2rem;
+	background-position: center;
+	background-size: cover;
+	transition: transform var(--transition-duration) ease-in-out;
+}
+
+div[class^="villas"]:hover,
+div[class^="villas"]:active {
+	transform: scale(1.05);
+}
+
+div[class^="villas"] h2[class^="villas"] {
+	font-size: var(--font-size-title);
+	padding: 0 2rem 1rem;
+	font-weight: 400;
+	color: white;
+	text-transform: uppercase;
+}
+
+div[class^="villas"] p[class^="villas"] {
+	font-size: 2rem;
+	margin: 1.5rem 0 4rem 0;
+	color: white;
+	font-weight: 500;
+}
+
+div[class^="villas"] a[class^="villas"]:link,
+div[class^="villas"] a[class^="villas"]:visited {
+	display: inline-block;
+	margin-bottom: 2rem;
+	background-color: white;
+	color: var(--color-primary);
+	z-index: 2;
+	overflow: hidden;
+}
+
+div[class^="villas"] a[class^="villas"]:hover,
+div[class^="villas"] a[class^="villas"]:active {
+	color: white;
+}
+
+div[class^="villas"] a[class^="villas"]:link::before,
+div[class^="villas"] a[class^="villas"]:visited::before {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 100%;
+	height: 0;
+	background-color: var(--color-secondary);
+	transition: height var(--transition-duration) ease-in-out;
+	z-index: -1;
+}
+
+div[class^="villas"] a[class^="villas"]:link::before,
+div[class^="villas"] a[class^="villas"]:visited::before {
+	transform: translate(-50%, -50%) rotate(45deg);
+}
+
+div[class^="villas"] a[class^="villas"]:link::before,
+div[class^="villas"] a[class^="villas"]:visited::before {
+	transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+div[class^="villas"] a[class^="villas"]:hover::before,
+div[class^="villas"] a[class^="villas"]:active::before {
+	height: 400%;
+}
+
+.villas_villa-1 {
+	background: linear-gradient(
+			var(--color-primary-m-light),
+			var(--color-tertiary-m-light)
+		),
+		url(img/Villas/villa-1.jpg);
+}
+
+.villas_villa-2 {
+	background: linear-gradient(
+			var(--color-primary-m-light),
+			var(--color-tertiary-m-light)
+		),
+		url(img/Villas/villa-2.jpg);
+}
+
+.villas_villa-3 {
+	background: linear-gradient(
+			var(--color-primary-m-light),
+			var(--color-tertiary-m-light)
+		),
+		url(img/Villas/villa-3.jpg);
+}
+
+.villas_villa-4 {
+	background: linear-gradient(
+			var(--color-primary-m-light),
+			var(--color-tertiary-m-light)
+		),
+		url(img/Villas/villa-4.jpg);
+}
+
+.villas_villa-5 {
+	background: linear-gradient(
+			var(--color-primary-m-light),
+			var(--color-tertiary-m-light)
+		),
+		url(img/Villas/villa-5.jpg);
+}
+
+.villas_villa-6 {
+	background: linear-gradient(
+			var(--color-primary-m-light),
+			var(--color-tertiary-m-light)
+		),
+		url(img/Villas/villa-6.jpg);
+}
+
+section#motto {
+	background-color: var(--color-primary);
+	grid-column: container-start / container-end;
+	padding: 10vh;
+}
+
+.motto_content {
+	width: 80%;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.motto_content-title {
+	font-size: var(--font-size-title);
+	padding: 0 2rem 1rem;
+	font-weight: 300;
+	color: white;
+	text-transform: uppercase;
+	margin-bottom: 2rem;
+	position: relative;
+}
+
+.motto_content-title::after {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: 45%;
+	height: 0.2rem;
+	width: 10%;
+	background-color: white;
+}
+
+section#events-content {
+	grid-column: container-start / col-end 9;
+
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+}
+
+section#events-content > div {
+	padding: var(--padding-section);
+	display: grid;
+	grid-template-areas:
+		"title"
+		"para";
+	row-gap: 4vh;
+	align-items: center;
+	justify-items: start;
+}
+
+section#events-content > div h2[class*="title"] {
+	grid-area: title;
+	font-size: var(--font-size-title);
+	font-weight: 400;
+	color: white;
+}
+
+section#events-content > div p[class*="para"] {
+	grid-area: para;
+	color: white;
+	font-weight: 500;
+}
+
+section#events-content > div:first-child {
+	background: linear-gradient(
+			var(--color-tertiary-m-light),
+			var(--color-tertiary-m-light)
+		),
+		url(img/Events/beach-party.jpg);
+	border-right: solid 0.2rem var(--color-tertiary);
+}
+
+section#events-content > div:last-child {
+	background: linear-gradient(
+			var(--color-tertiary-m-light),
+			var(--color-tertiary-m-light)
+		),
+		url(img/Events/culture-discovery.jpg);
+	border-left: solid 0.2rem var(--color-tertiary);
+}
+
+section#events-content > div:first-child,
+section#events-content > div:last-child {
+	background-size: cover;
+	background-position: center;
+}
+
+section#events-text {
+	background-color: var(--color-tertiary);
+	grid-column: col-start 10 / center-end;
+
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 1fr;
+	place-items: center;
+}
+
+.events-text_content {
+	transform: rotate(0.25turn);
+}
+
+.events-text_content--title {
+	font-size: var(--font-size-title);
+	font-weight: 500;
+	color: white;
+	letter-spacing: 0.2rem;
+}
+
+section#gallery-text {
+	background-color: var(--color-primary);
+	grid-column: center-start/ col-end 1;
+
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 1fr;
+	place-items: center;
+}
+
+.gallery-text_content {
+	transform: rotate(0.75turn);
+}
+
+.gallery-text_content--title {
+	font-size: var(--font-size-title);
+	font-weight: 500;
+	color: white;
+	letter-spacing: 0.2rem;
+}
+
+section#gallery-carousel {
+	background-color: var(--color-tertiary);
+	grid-column: col-start 2 / container-end;
+	height: 400px;
+}
+
+section#features-content {
+	background-color: var(--color-primary);
+	grid-column: container-start / col-end 9;
+	height: 400px;
+}
+
+section#features-text {
+	background-color: var(--color-secondary);
+	grid-column: col-start 10 / center-end;
+	height: 400px;
+}
+
+section#testimonials {
+	background-color: var(--color-tertiary);
+	grid-column: center-start / center-end;
+	height: 400px;
+}
+footer#footer {
+	background-color: var(--color-primary);
+	grid-column: container-start / container-end;
+}
+
+@media screen and (max-width: 1000px) {
+	a:link,
+	a:visited {
+		font-size: calc(1rem + 1vw);
+	}
+}
+
+@media screen and (max-width: 800px) {
+	section#booking-content {
+		padding: 4vh 3vw;
+		grid-column: center-start / center-end;
+	}
+
+	section#booking-date {
+		padding: 4vh 3vw;
+		grid-column: center-start / center-end;
+		row-gap: 7vh;
+	}
+
+	.booking-date_sched--arrival > div,
+	.booking-date_sched--departure > div,
+	.booking-date_sched--guests > div {
+		padding: 2rem;
+		grid-template-columns: repeat(3, 1fr);
+		grid-template-rows: min-content;
+		grid-column-gap: 2vw;
+		place-items: center;
+	}
+
+	section#villas {
+		grid-gap: 0;
+	}
+
+	.booking-content_title {
+		text-align: center;
+	}
+
+	.booking-content_title::after {
+		width: 20%;
+		left: 40%;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	.header_content-para {
+		font-size: 2rem;
+	}
+
+	section#booking-date {
+		grid-template-rows: repeat(2, max-content);
+	}
+
+	.booking-date_sched--arrival > div,
+	.booking-date_sched--departure > div,
+	.booking-date_sched--guests > div {
+		padding: 4rem;
+		grid-template-columns: min-content;
+	}
+
+	.booking-content_para,
+	div[class^="villas"] p[class^="villas"],
+	.motto_content-para,
+	section#events-content > div p[class*="para"] {
+		font-size: 1.5rem;
+	}
+
+	div[class^="villas"] p[class^="villas"] {
+		margin: 1.5rem 0 4rem 0;
+	}
+
+	section#events-content > div:first-child,
+	section#events-content > div:last-child {
+		border: none;
+	}
+
+	section#events-content {
+		grid-column: center-start/ center-end;
+		grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+	}
+
+	section#events-text {
+		display: none;
+	}
+}
+
+@media screen and (max-width: 400px) {
+	.booking-date_sched {
+		grid-template-rows: repeat(3, 1fr);
+		grid-template-columns: auto;
+		grid-row-gap: 4vh;
+	}
+
+	.booking-date_contact {
+		justify-items: center;
+		padding: 0 2rem;
+	}
+
+	section#villas {
+		grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+	}
+}

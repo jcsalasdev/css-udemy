@@ -1,0 +1,21 @@
+div.weather_info_temp {
+	padding: 1rem !important;
+}
+
+div.weather_info {
+	font-size: 0.7rem;
+	align-items: flex-end;
+}
+
+h1 {
+	font-size: 3rem !important;
+	padding: 0 1rem;
+}
+
+i {
+	font-size: 2.5rem !important;
+}
+
+p {
+	font-size: 1.5rem !important;
+}

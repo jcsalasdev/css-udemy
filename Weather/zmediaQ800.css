@@ -1,0 +1,9 @@
+div.weather_dates_info {
+	flex-direction: column;
+}
+
+div.weather_dates_info > div {
+	display: flex;
+	justify-content: space-evenly;
+	margin-bottom: 2rem;
+}
