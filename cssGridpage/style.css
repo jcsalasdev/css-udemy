@@ -16,7 +16,7 @@
 	--color-primary-m-dark: #73003a9d;
 
 	--color-secondary: #ffc513;
-	--color-secondary-m-light: #ffc41355;
+	--color-secondary-m-light: #ffc41365;
 	--color-secondary-m-dark: #ffc4139b;
 
 	--color-tertiary: #ff724c;
@@ -725,7 +725,7 @@ section#events-text {
 
 .events-text_content--title {
 	font-size: var(--font-size-title);
-	font-weight: 500;
+	font-weight: 600;
 	color: white;
 	letter-spacing: 0.2rem;
 }
@@ -746,7 +746,7 @@ section#gallery-text {
 
 .gallery-text_content--title {
 	font-size: var(--font-size-title);
-	font-weight: 500;
+	font-weight: 600;
 	color: white;
 	letter-spacing: 0.2rem;
 }
@@ -757,6 +757,10 @@ section#gallery-carousel {
 	overflow: hidden;
 	border: solid 0.2rem var(--color-secondary);
 	position: relative;
+}
+
+.hidden {
+	display: none;
 }
 
 div.gallery-carousel_img-container {
@@ -830,25 +834,207 @@ div.gallery-carousel_img-container {
 }
 
 section#features-content {
-	background-color: var(--color-primary);
 	grid-column: container-start / col-end 9;
-	height: 400px;
+
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+}
+
+section#features-content > div {
+	padding: var(--padding-section);
+	display: grid;
+	grid-template-areas:
+		"title"
+		"para";
+	row-gap: 4vh;
+	align-items: center;
+	justify-items: start;
+}
+
+section#features-content > div h2[class*="title"] {
+	grid-area: title;
+	font-size: var(--font-size-title);
+	font-weight: 400;
+	color: white;
+}
+
+section#features-content > div p[class*="para"] {
+	grid-area: para;
+	color: white;
+	font-weight: 500;
+}
+
+section#features-content > div:first-child {
+	background: linear-gradient(
+			var(--color-secondary-m-light),
+			var(--color-secondary-m-light)
+		),
+		url(img/Features/cocktail.jpg);
+	border-right: solid 0.2rem var(--color-secondary);
+}
+
+section#features-content > div:last-child {
+	background: linear-gradient(
+			var(--color-secondary-m-light),
+			var(--color-secondary-m-light)
+		),
+		url(img/Features/surfing.jpg);
+	border-left: solid 0.2rem var(--color-secondary);
+}
+
+section#features-content > div:first-child,
+section#features-content > div:last-child {
+	background-size: cover;
+	background-position: center;
 }
 
 section#features-text {
 	background-color: var(--color-secondary);
 	grid-column: col-start 10 / center-end;
-	height: 400px;
+
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 1fr;
+	place-items: center;
+}
+
+.features-text_content {
+	transform: rotate(0.25turn);
+}
+
+.features-text_content--title {
+	font-size: var(--font-size-title);
+	font-weight: 600;
+	color: white;
+	letter-spacing: 0.2rem;
 }
 
 section#testimonials {
-	background-color: var(--color-tertiary);
 	grid-column: center-start / center-end;
-	height: 400px;
+	padding: var(--padding-section);
+
+	display: grid;
+	grid-template-columns: repeat(auto-fit, 28rem);
+	grid-gap: 5rem;
+	place-content: center;
 }
+
+.testimonials_card {
+	width: 28rem;
+	height: 50rem;
+	position: relative;
+}
+
+.testimonials_card-front,
+.testimonials_card-back {
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	transition: all 1s ease-in-out;
+	backface-visibility: hidden;
+	transform: perspective(100rem);
+
+	display: grid;
+	justify-items: center;
+	align-items: start;
+	padding: 3rem;
+}
+
+.testimonials_card-front h2 {
+	background-color: var(--color-secondary-m-light);
+	padding: 1rem;
+	border-bottom-right-radius: 50%;
+	border-bottom-left-radius: 50%;
+}
+
+.testimonials_card-back p {
+	place-self: center;
+	font-weight: 400;
+	font-size: 2rem;
+}
+
+.testimonials_card:first-child .testimonials_card-front {
+	background-image: url("img/Testimonials/testimonials-1.jpg");
+}
+
+.testimonials_card:nth-of-type(2) .testimonials_card-front {
+	background-image: url("img/Testimonials/testimonials-2.jpg");
+}
+
+.testimonials_card:nth-of-type(3) .testimonials_card-front {
+	background-image: url("img/Testimonials/testimonials-3.jpg");
+}
+
+.testimonials_card:nth-of-type(4) .testimonials_card-front {
+	background-image: url("img/Testimonials/testimonials-4.jpg");
+}
+
+.testimonials_card:nth-of-type(5) .testimonials_card-front {
+	background-image: url("img/Testimonials/testimonials-5.jpg");
+}
+
+.testimonials_card:last-child .testimonials_card-front {
+	background-image: url("img/Testimonials/testimonials-6.jpg");
+}
+.testimonials_card-back {
+	transform: perspective(100rem) rotateY(0.5turn);
+	background-color: var(--color-secondary);
+}
+
+.testimonials_card:hover .testimonials_card-front {
+	transform: perspective(100rem) rotateY(0.5turn);
+}
+
+.testimonials_card:hover .testimonials_card-back {
+	transform: perspective(100rem) rotateY(1turn);
+}
+
 footer#footer {
 	background-color: var(--color-primary);
 	grid-column: container-start / container-end;
+	padding: 6vh 4vw;
+
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	place-items: center;
+}
+
+.footer_social-link:link,
+.footer_social-link:visited {
+	display: inline-block;
+	background-color: var(--color-secondary);
+	border-radius: 50%;
+	margin-right: 1rem;
+	box-shadow: 0.5rem 0.5rem 2rem 0.5rem var(--color-secondary-m-light),
+		-0.5rem -0.5rem 2rem 0.5rem var(--color-secondary-m-light);
+	transform: scale(0.8);
+	animation: social 3s linear infinite;
+}
+
+.footer_social-link i {
+	font-size: 2rem;
+	color: var(--color-primary);
+}
+
+@keyframes social {
+	0% {
+		opacity: 0;
+	}
+
+	50% {
+		opacity: 1;
+		transform: scale(1.2);
+	}
+
+	100% {
+		opacity: 0;
+	}
 }
 
 @media screen and (max-width: 1000px) {
@@ -913,7 +1099,8 @@ footer#footer {
 	.booking-content_para,
 	div[class^="villas"] p[class^="villas"],
 	.motto_content-para,
-	section#events-content > div p[class*="para"] {
+	section#events-content > div p[class*="para"],
+	section#features-content > div p[class*="para"] {
 		font-size: 1.5rem;
 	}
 
@@ -922,16 +1109,20 @@ footer#footer {
 	}
 
 	section#events-content > div:first-child,
-	section#events-content > div:last-child {
+	section#events-content > div:last-child,
+	section#features-content > div:first-child,
+	section#features-content > div:last-child {
 		border: none;
 	}
 
-	section#events-content {
+	section#events-content,
+	section#features-content {
 		grid-column: center-start/ center-end;
 		grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
 	}
 
-	section#events-text {
+	section#events-text,
+	section#features-text {
 		display: none;
 	}
 
