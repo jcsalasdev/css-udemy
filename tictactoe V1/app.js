@@ -7,7 +7,7 @@ const prevH = document.querySelector(".prev-btn");
 const nextH = document.querySelector(".next-btn");
 const board = document.getElementById("board");
 
-let c
+let circleTurn
 const player1 = "circle";
 const player2 = "x";
 const WINNING_COMBINATIONS = [
@@ -72,6 +72,7 @@ function startGame() {
 function handleClick(e) {
   const cell = e.target
   const currentClass = circleTurn ? player1: player2;
+  result.innerText = circleTurn ? "x turn": "circle turn"
   placeMark(cell, currentClass)
 
   if (checkWin(currentClass)) {
@@ -82,8 +83,6 @@ function handleClick(e) {
     swapTurns()
     setBoardHoverClass()
   }
-
-  result.innerText = circleTurn ? "x turn": "circle turn"
 }
 
 function endGame(draw) {
