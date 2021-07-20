@@ -48,12 +48,13 @@ function drawBoard() {
 }
 
 startGame()
-
 resetBtn.addEventListener('click', startGame)
 
 function startGame() {
-  circleTurn = false;
-
+  state.circleTurn = false;
+  state.isStarted = false;
+  state.moveLog = [[...state.boardState]];
+  state.boardState = state.boardState.map(_ => "");
   cellElements.forEach(cell => {
     cell.classList.remove(player1)
     cell.classList.remove(player2)
@@ -61,7 +62,6 @@ function startGame() {
     cell.removeEventListener('click', handleClick)
     cell.addEventListener('click', handleClick, { once: true })
   })
-
   result.innerText = "Tic-Tac-Toe"
   prevH.classList.add('prev-btn')
   nextH.classList.add('next-btn')
@@ -71,12 +71,17 @@ function startGame() {
 
 function handleClick(e) {
   const cell = e.target
-  const currentClass = circleTurn ? player1: player2;
+  const currentClass =  state.circleTurn ? player1: player2;
+  state.boardState[target.dataset.cell] = currentClass;
+  updateBoard(state.boardState);
+  saveMove(state.boardState);
   placeMark(cell, currentClass)
 
   if (checkWin(currentClass)) {
+    state.moves = state.moveLog.length;
     endGame(false)
   } else if (isDraw()) {
+    state.moves = state.moveLog.length;
     endGame(true)
   } else {
     swapTurns()
@@ -143,5 +148,68 @@ function checkWin(currentClass) {
   });
  
 }
+
+prevH.addEventListener("click",displayPrevious);
+nextH.addEventListener("click", displayNext());
+
+const state = {
+  boardState: ["", "", "", "", "", "", "", ""],
+  moveLog: [["", "", "", "", "", "", "", ""]],
+  moves: 0,
+  circleTurn: false,
+  isStarted: false
+};
+function saveMove(boardState) {
+  state.moveLog.push([...boardState]);
+}
+
+function updateBoard(boardState) {
+  for (let i = 0; i <= boardState.length - 1; i++) {
+    if (boardState[i] === "") {
+      continue;
+    } else {
+      board.children[i].classList.toggle(boardState[i], true);
+    }
+  }
+}
+
+function displayNext() {
+  showLog(state.moveLog[state.moves++]);
+    if (state.moves >= state.moveLog.length) {
+    nextH.setAttribute("disabled", true);
+  }
+}
+  
+function displayPrevious(){
+  showLog(state.moveLog[--state.moves - 1]); 
+    if (state.moves <= 1) {
+    prevH.setAttribute("disabled", true);
+    }
+}
+
+function showLog(snapshot) {
+  cellElements.forEach( cellElements => {
+  cellElements.classList.remove(...currentClass);
+  });
+  
+  for (let i = 0; i <= snapshot.length - 1; i++) {
+    if (snapshot[i] === "") {
+      continue;
+    } 
+    else {
+        board.children[i].classList.add(snapshot[i]);
+      }
+    }
+
+    if (state.moves < state.moveLog.length) {
+        nextH.removeAttribute("disabled");
+    }
+
+    if (state.moves > 1) {
+      prevH.removeAttribute("disabled");
+    }
+}
+
+
 
 
