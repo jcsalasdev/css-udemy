@@ -1,5 +1,3 @@
-
-
 const list = document.querySelector(".gallery-carousel_img-list");
 const imgs = Array.from(list.children);
 const nextButton = document.querySelector(".gallery-carousel_btn--right");
