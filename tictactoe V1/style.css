@@ -13,6 +13,11 @@ body {
 	background-repeat: none;
 	background-position: center;
 	background-size: cover;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
 }
 
 h1 {
@@ -20,13 +25,6 @@ h1 {
 	font-weight: bold;
 	color: white;
 	margin: 0px;
-}
-
-.wrapper {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
 }
 
 .board {
@@ -150,4 +148,10 @@ button:hover {
 .prev-btn,
 .next-btn {
 	display: none;
+}
+
+.won,
+.won.circle::after,
+.board.circle .cell:not(.x):not(.circle)::after {
+	background-color: darkgreen;
 }

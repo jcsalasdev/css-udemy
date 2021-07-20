@@ -7,7 +7,7 @@ const prevH = document.querySelector(".prev-btn");
 const nextH = document.querySelector(".next-btn");
 const board = document.getElementById("board");
 
-let circleTurn
+let c
 const player1 = "circle";
 const player2 = "x";
 const WINNING_COMBINATIONS = [
@@ -20,7 +20,7 @@ const WINNING_COMBINATIONS = [
   [0, 4, 8],
   [2, 4, 6]
 ]
-drawBoard();
+drawBoard()
 
 function drawBoard() {
   boxesArray.forEach((box, index) => {
@@ -44,30 +44,36 @@ function drawBoard() {
     box.style = border;
 
   });
-  startGame()
+ 
 }
 
+startGame()
 
 resetBtn.addEventListener('click', startGame)
 
 function startGame() {
-  circleTurn = false
+  circleTurn = false;
+
   cellElements.forEach(cell => {
-    cell.classList.remove(player2)
     cell.classList.remove(player1)
+    cell.classList.remove(player2)
+    cell.classList.remove('won')
     cell.removeEventListener('click', handleClick)
     cell.addEventListener('click', handleClick, { once: true })
   })
+
   result.innerText = "Tic-Tac-Toe"
   prevH.classList.add('prev-btn')
   nextH.classList.add('next-btn')
+ 
   setBoardHoverClass()
 }
 
 function handleClick(e) {
   const cell = e.target
-  const currentClass = circleTurn ? player1: player2
+  const currentClass = circleTurn ? player1: player2;
   placeMark(cell, currentClass)
+
   if (checkWin(currentClass)) {
     endGame(false)
   } else if (isDraw()) {
@@ -76,6 +82,8 @@ function handleClick(e) {
     swapTurns()
     setBoardHoverClass()
   }
+
+  result.innerText = circleTurn ? "x turn": "circle turn"
 }
 
 function endGame(draw) {
@@ -83,16 +91,21 @@ function endGame(draw) {
     result.innerText = 'Draw!'
   } else {
     result.innerText = `${circleTurn ? "O's" : "X's"} Wins!`
+    boxes.forEach(boxes => boxes.removeEventListener("click", handleClick));
   }
   prevH.classList.remove('prev-btn')
   nextH.classList.remove('next-btn')
+
+
 }
 
 function isDraw() {
+ 
   return [...cellElements].every(cell => {
     return cell.classList.contains(player1) || cell.classList.contains(player2)
-    
+   
   })
+
 }
 
 function placeMark(cell, currentClass) {
@@ -115,14 +128,20 @@ function setBoardHoverClass() {
 
 function checkWin(currentClass) {
   return WINNING_COMBINATIONS.some(combination => {
-    return combination.every(index => {
+    const winStyle = combination.every(index => {
       return cellElements[index].classList.contains(currentClass)
-    })
-  })
+    });
+
+    if (winStyle) {
+      combination.forEach(index => {
+        boxes[index].classList.add("won");
+      });
+      return true;
+    } else {
+      return false;
+    }
+  });
+ 
 }
-
-// prevH.addEventListener("click",);
-// nextH.addEventListener("click", );
-
 
 
