@@ -89,7 +89,7 @@ function endGame(draw) {
   if (draw) {
     result.innerText = 'Draw!'
   } else {
-    result.innerText = `${circleTurn ? "O's" : "X's"} Wins!`
+    result.innerText = `${circleTurn ? "O" : "X"} Wins!`
     boxes.forEach(boxes => boxes.removeEventListener("click", handleClick));
   }
   prevH.classList.remove('prev-btn')
