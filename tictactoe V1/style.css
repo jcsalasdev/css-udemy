@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Bungee+Shade&display=swap");
 
+*,
 *::before,
 *::after {
 	padding: 0;
@@ -10,9 +11,10 @@
 body {
 	font-family: "Bungee Shade", cursive;
 	background-image: url(https://wallpaper.dog/large/10969338.jpg);
-	background-repeat: none;
+	background-repeat: no-repeat;
 	background-position: center;
 	background-size: cover;
+	height: 100vh;
 
 	display: flex;
 	justify-content: center;
@@ -21,10 +23,17 @@ body {
 }
 
 h1 {
-	font-size: 65px;
+	font-size: 50px;
 	font-weight: bold;
-	color: white;
 	margin: 0px;
+	background: -webkit-linear-gradient(
+		rgb(0, 185, 246),
+		rgb(115, 217, 251),
+		rgb(246, 246, 130),
+		rgb(246, 246, 130)
+	);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
 }
 
 .board {
@@ -38,8 +47,8 @@ h1 {
 
 .cell {
 	background-color: rgba(0, 0, 0, 0.849);
-	height: 150px;
-	width: 150px;
+	height: 146.5px;
+	width: 146.5px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -75,11 +84,13 @@ h1 {
 	box-shadow: 0.2rem 0.2rem 1rem 0.2rem rgb(236, 236, 85),
 		-0.2rem -0.2rem 1rem -0.2rem rgb(236, 236, 85);
 }
-
+.won.circle::before,
+.won.x::before,
+.won.x::after,
 .board.x .cell:not(.x):not(.circle):hover::before,
 .board.x .cell:not(.x):not(.circle):hover::after,
 .board.circle .cell:not(.x):not(.circle):hover::before {
-	background-color: gainsboro;
+	background-color: whitesmoke;
 }
 
 .cell.x::before,
@@ -148,10 +159,4 @@ button:hover {
 .prev-btn,
 .next-btn {
 	display: none;
-}
-
-.won,
-.won.circle::after,
-.board.circle .cell:not(.x):not(.circle)::after {
-	background-color: darkgreen;
 }
