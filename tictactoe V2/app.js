@@ -1,164 +1,154 @@
-const boxes = document.querySelectorAll(".cell");
-const cellElements = document.querySelectorAll('[data-cell]')
-const boxesArray = Array.from(boxes);
-const result = document.querySelector(".result");
-const resetBtn = document.querySelector(".reset-btn");
-const prevH = document.querySelector(".prev-btn");
-const nextH = document.querySelector(".next-btn");
-const board = document.getElementById("board");
+import {boxes, cellElements, result, resetBtn, prevH, nextH,
+   board, player1, player2, winningCombination} from "./src/constants.js"
+import drawBoard from "./src/drawBoard.js"
+import state from "./src/state.js"
 
-let c
-const player1 = "circle";
-const player2 = "x";
-const WINNING_COMBINATIONS = [
-  [0, 1, 2],
-  [3, 4, 5],
-  [6, 7, 8],
-  [0, 3, 6],
-  [1, 4, 7],
-  [2, 5, 8],
-  [0, 4, 8],
-  [2, 4, 6]
-]
 drawBoard()
 
-function drawBoard() {
-  boxesArray.forEach((box, index) => {
-    let border = "";
-
-    if (index < 3) {
-      border += "border-bottom: 5px solid;";
-    }
-
-    if (index % 3 === 0) {
-      border += "border-right: 5px solid;";
-    }
-
-    if (index % 3 === 2) {
-      border += "border-left: 5px solid;";
-    }
-
-    if (index > 5) {
-      border += "border-top: 5px solid;";
-    }
-    box.style = border;
-
-  });
- 
-}
+let circleTurn 
 
 startGame()
-resetBtn.addEventListener('click', startGame)
 
 function startGame() {
-  state.circleTurn = false;
   state.isStarted = false;
-  state.moveLog = [[...state.boardState]];
+  state.circleTurn = false;
   state.boardState = state.boardState.map(_ => "");
+  state.moveLog = [[...state.boardState]];
+
   cellElements.forEach(cell => {
-    cell.classList.remove(player1)
-    cell.classList.remove(player2)
-    cell.classList.remove('won')
-    cell.removeEventListener('click', handleClick)
-    cell.addEventListener('click', handleClick, { once: true })
+    cell.classList.remove(player1, player2, 'won')
+    cell.addEventListener('click', handleClick, {once: true})
   })
+  resetBtn.setAttribute("disabled", "true");
   result.innerText = "Tic-Tac-Toe"
-  prevH.classList.add('prev-btn')
-  nextH.classList.add('next-btn')
- 
+  hideHistoryBtn() 
   setBoardHoverClass()
 }
 
 function handleClick(e) {
   const cell = e.target
-  const currentClass =  state.circleTurn ? player1: player2;
-  state.boardState[target.dataset.cell] = currentClass;
+  const currentClass = state.circleTurn ? player1: player2;
+  state.boardState[cell.dataset.cell] = currentClass;
   updateBoard(state.boardState);
   saveMove(state.boardState);
-  placeMark(cell, currentClass)
+  result.innerText = `${state.circleTurn ? "circle turn" : "x turn"}`;
+  if (!state.isStarted) {
+    resetBtn.addEventListener('click', startGame)
+    resetBtn.removeAttribute("disabled");
+    state.isStarted = true;
+  }
 
   if (checkWin(currentClass)) {
-    state.moves = state.moveLog.length;
     endGame(false)
-  } else if (isDraw()) {
+    boxes.forEach(boxes => boxes.removeEventListener("click", handleClick));
     state.moves = state.moveLog.length;
+
+  } else if (isDraw()) {
     endGame(true)
+    state.moves = state.moveLog.length;
+
   } else {
-    swapTurns()
+    state.circleTurn = !state.circleTurn
     setBoardHoverClass()
   }
-
-  result.innerText = circleTurn ? "x turn": "circle turn"
-}
-
-function endGame(draw) {
-  if (draw) {
-    result.innerText = 'Draw!'
-  } else {
-    result.innerText = `${circleTurn ? "O's" : "X's"} Wins!`
-    boxes.forEach(boxes => boxes.removeEventListener("click", handleClick));
-  }
-  prevH.classList.remove('prev-btn')
-  nextH.classList.remove('next-btn')
-
-
-}
-
-function isDraw() {
- 
-  return [...cellElements].every(cell => {
-    return cell.classList.contains(player1) || cell.classList.contains(player2)
-   
-  })
-
-}
-
-function placeMark(cell, currentClass) {
-  cell.classList.add(currentClass)
-}
-
-function swapTurns() {
-  circleTurn = !circleTurn
 }
 
 function setBoardHoverClass() {
-  board.classList.remove(player1)
-  board.classList.remove(player2)
-  if (circleTurn) {
+  board.classList.remove(player1, player2)
+  if (state.circleTurn) {
     board.classList.add(player1)
   } else {
     board.classList.add(player2)
   }
 }
 
+
+function endGame(draw) {
+  if (draw) {
+    result.innerText = 'Draw!'
+  } else {
+    result.innerText = `${circleTurn ? "Circle" : "X"} Wins!`
+  }
+  displayHistoryBtn()
+}
+
+function isDraw() {
+  return [...cellElements].every(cell => {
+    return cell.classList.contains(player1) || cell.classList.contains(player2)
+   
+  })
+}
+
 function checkWin(currentClass) {
-  return WINNING_COMBINATIONS.some(combination => {
+  return winningCombination.some(combination => {
     const winStyle = combination.every(index => {
       return cellElements[index].classList.contains(currentClass)
     });
 
     if (winStyle) {
       combination.forEach(index => {
-        boxes[index].classList.add("won");
+        cellElements[index].classList.add("won");
       });
       return true;
     } else {
       return false;
     }
   });
- 
 }
 
-prevH.addEventListener("click",displayPrevious);
-nextH.addEventListener("click", displayNext());
+function displayHistoryBtn() {
+  prevH.classList.remove('prev-btn')
+  nextH.classList.remove('next-btn')
+  prevH.addEventListener("click", displayPrev);
+  nextH.addEventListener("click", displayNext); 
+  nextH.setAttribute("disabled", "true");
+  prevH.removeAttribute("disabled");
+}
 
-const state = {
-  boardState: ["", "", "", "", "", "", "", ""],
-  moveLog: [["", "", "", "", "", "", "", ""]],
-  moves: 0,
-  circleTurn: false,
-  isStarted: false
-};
+function hideHistoryBtn() {
+  prevH.classList.add('prev-btn')
+  nextH.classList.add('next-btn')
+  prevH.removeEventListener("click", displayPrev);
+  nextH.removeEventListener("click", displayNext);
+}
+
+
+
+function displayNext() {
+  showLog(state.moveLog[state.moves++]);
+  if (state.moves >= state.moveLog.length) {
+    nextH.setAttribute("disabled", true);
+  }
+}
+
+function displayPrev() {
+  showLog(state.moveLog[--state.moves - 1]); 
+  if (state.moves <= 1) {
+    prevH.setAttribute("disabled", true);
+  }
+}
+
+
+
+function showLog(snapshot) {
+  cellElements.forEach(cell => {
+    cell.classList.remove(player1, player2)});
+
+  for (let i = 0; i <= snapshot.length - 1; i++) {
+    if (snapshot[i] === "") {
+      continue;
+    } else {
+      board.children[i].classList.add(snapshot[i]);
+    }
+  }
+  if (state.moves < state.moveLog.length) {
+    nextH.removeAttribute("disabled");
+  }
+  if (state.moves > 1) {
+   prevH.removeAttribute("disabled");
+  }
+}
+
 function saveMove(boardState) {
   state.moveLog.push([...boardState]);
 }
@@ -172,44 +162,3 @@ function updateBoard(boardState) {
     }
   }
 }
-
-function displayNext() {
-  showLog(state.moveLog[state.moves++]);
-    if (state.moves >= state.moveLog.length) {
-    nextH.setAttribute("disabled", true);
-  }
-}
-  
-function displayPrevious(){
-  showLog(state.moveLog[--state.moves - 1]); 
-    if (state.moves <= 1) {
-    prevH.setAttribute("disabled", true);
-    }
-}
-
-function showLog(snapshot) {
-  cellElements.forEach( cellElements => {
-  cellElements.classList.remove(...currentClass);
-  });
-  
-  for (let i = 0; i <= snapshot.length - 1; i++) {
-    if (snapshot[i] === "") {
-      continue;
-    } 
-    else {
-        board.children[i].classList.add(snapshot[i]);
-      }
-    }
-
-    if (state.moves < state.moveLog.length) {
-        nextH.removeAttribute("disabled");
-    }
-
-    if (state.moves > 1) {
-      prevH.removeAttribute("disabled");
-    }
-}
-
-
-
-
