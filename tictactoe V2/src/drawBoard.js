@@ -20,7 +20,5 @@ export default function drawBoard() {
         border += "border-top: 5px solid;";
       }
       box.style = border;
-  
     });
-   
-  }
+ }

@@ -1,12 +1,9 @@
 import {boxes, cellElements, result, resetBtn, prevH, nextH,
-   board, player1, player2, winningCombination} from "./src/constants.js"
+ board, player1, player2, winningCombination} from "./src/constants.js"
 import drawBoard from "./src/drawBoard.js"
 import state from "./src/state.js"
 
 drawBoard()
-
-let circleTurn 
-
 startGame()
 
 function startGame() {
@@ -14,7 +11,6 @@ function startGame() {
   state.circleTurn = false;
   state.boardState = state.boardState.map(_ => "");
   state.moveLog = [[...state.boardState]];
-
   cellElements.forEach(cell => {
     cell.classList.remove(player1, player2, 'won')
     cell.addEventListener('click', handleClick, {once: true})
@@ -24,7 +20,6 @@ function startGame() {
   hideHistoryBtn() 
   setBoardHoverClass()
 }
-
 function handleClick(e) {
   const cell = e.target
   const currentClass = state.circleTurn ? player1: player2;
@@ -40,9 +35,7 @@ function handleClick(e) {
 
   if (checkWin(currentClass)) {
     endGame(false)
-    boxes.forEach(boxes => boxes.removeEventListener("click", handleClick));
     state.moves = state.moveLog.length;
-
   } else if (isDraw()) {
     endGame(true)
     state.moves = state.moveLog.length;
@@ -54,7 +47,8 @@ function handleClick(e) {
 }
 
 function setBoardHoverClass() {
-  board.classList.remove(player1, player2)
+  board.classList.remove(player1)
+  board.classList.remove(player2)
   if (state.circleTurn) {
     board.classList.add(player1)
   } else {
@@ -67,8 +61,11 @@ function endGame(draw) {
   if (draw) {
     result.innerText = 'Draw!'
   } else {
-    result.innerText = `${state.circleTurn ? "Circle" : "X"} Wins!`
+    result.innerText = `${state.circleTurn ? "Circle" : "X"} Wins!`;
+    boxes.forEach(cell => cell.removeEventListener("click", handleClick));
+    board.classList.remove(player1, player2)
   }
+
   displayHistoryBtn()
 }
 
@@ -112,8 +109,6 @@ function hideHistoryBtn() {
   nextH.removeEventListener("click", displayNext);
 }
 
-
-
 function displayNext() {
   showLog(state.moveLog[state.moves++]);
   if (state.moves >= state.moveLog.length) {
@@ -127,8 +122,6 @@ function displayPrev() {
     prevH.setAttribute("disabled", true);
   }
 }
-
-
 
 function showLog(snapshot) {
   cellElements.forEach(cell => {
