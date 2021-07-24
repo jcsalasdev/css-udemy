@@ -67,7 +67,7 @@ function endGame(draw) {
   if (draw) {
     result.innerText = 'Draw!'
   } else {
-    result.innerText = `${circleTurn ? "Circle" : "X"} Wins!`
+    result.innerText = `${state.circleTurn ? "Circle" : "X"} Wins!`
   }
   displayHistoryBtn()
 }
